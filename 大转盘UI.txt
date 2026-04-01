@@ -1,0 +1,350 @@
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Home, Gift, Trophy, User, Wallet, Shield, CreditCard, ChevronRight, Check, X, Lock } from 'lucide-react';
+
+const prizes = [
+  { id: 0, icon: '🎟️', name: '门票碎片×1', rarity: 'rare', color: '#f59e0b' },
+  { id: 1, icon: '🪙', name: '0.5 USDT', rarity: 'common', color: '#3b82f6' },
+  { id: 2, icon: '🔄', name: '再来一次', rarity: 'common', color: '#10b981' },
+  { id: 3, icon: '🏅', name: '金条碎片×1', rarity: 'rare', color: '#eab308' },
+  { id: 4, icon: '⭐', name: '500 积分', rarity: 'common', color: '#6366f1' },
+  { id: 5, icon: '🎁', name: 'NFT 盲盒', rarity: 'epic', color: '#ec4899' },
+  { id: 6, icon: '🪙', name: '0.1 USDT', rarity: 'common', color: '#60a5fa' },
+  { id: 7, icon: '🎟️', name: '门票碎片×2', rarity: 'legendary', color: '#8b5cf6' },
+  { id: 8, icon: '🔄', name: '次数+2', rarity: 'common', color: '#34d399' },
+  { id: 9, icon: '💎', name: '1.0 USDT', rarity: 'grand', color: '#ef4444' },
+];
+
+const WheelSVG = () => {
+  const cx = 150, cy = 150, r = 140, n = 10;
+  return prizes.map((prize, i) => {
+    const angle = 360 / n;
+    const s = i * angle - 90;
+    const e = s + angle;
+    const sr = (s * Math.PI) / 180;
+    const er = (e * Math.PI) / 180;
+    const x1 = cx + r * Math.cos(sr), y1 = cy + r * Math.sin(sr);
+    const x2 = cx + r * Math.cos(er), y2 = cy + r * Math.sin(er);
+    const path = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2} Z`;
+    const ma = ((s + e) / 2 * Math.PI) / 180;
+    const tx = cx + r * 0.62 * Math.cos(ma), ty = cy + r * 0.62 * Math.sin(ma);
+    const ta = (s + e) / 2 + 90;
+    const fill = i % 2 === 0 ? '#1e293b' : '#2d3a4f';
+    return (
+      <g key={i}>
+        <path d={path} fill={fill} stroke="#475569" strokeWidth="0.5" />
+        <text x={tx} y={ty} textAnchor="middle" dominantBaseline="middle" transform={`rotate(${ta},${tx},${ty})`}>
+          <tspan x={tx} dy="-7" fontSize="15">{prize.icon}</tspan>
+          <tspan x={tx} dy="14" fontSize="6.5" fill={prize.color} fontWeight="bold">{prize.name}</tspan>
+        </text>
+      </g>
+    );
+  });
+};
+
+export default function CodeCoinApp() {
+  const [tab, setTab] = useState('home');
+  const [spins, setSpins] = useState(3);
+  const [spinning, setSpinning] = useState(false);
+  const [rot, setRot] = useState(0);
+  const [modal, setModal] = useState(null);
+  const [wdModal, setWdModal] = useState(false);
+
+  const spin = useCallback(() => {
+    if (spinning || spins <= 0) return;
+    setSpinning(true);
+    setSpins(s => s - 1);
+    const idx = Math.floor(Math.random() * 10);
+    const extra = (3 + Math.floor(Math.random() * 3)) * 360;
+    const target = extra + (360 - idx * 36 - 18);
+    setRot(prev => prev + target);
+    setTimeout(() => {
+      setSpinning(false);
+      setModal(prizes[idx]);
+      if (idx === 2) setSpins(s => s + 1);
+      if (idx === 8) setSpins(s => s + 2);
+    }, 4000);
+  }, [spinning, spins]);
+
+  const tabs = [
+    { id: 'home', label: '首页', Icon: Home },
+    { id: 'rewards', label: '奖励', Icon: Gift },
+    { id: 'activity', label: '活动', Icon: Trophy },
+    { id: 'profile', label: '我的', Icon: User },
+  ];
+
+  const Dots = ({ have, total }) => (
+    <div className="flex gap-1">
+      {Array.from({ length: total }, (_, i) => (
+        <div key={i} className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs ${i < have ? 'border-amber-400 bg-amber-900 text-amber-400' : 'border-slate-600 bg-slate-700 text-slate-600'}`}>
+          {i < have ? '✓' : ''}
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderHome = () => (
+    <div className="flex flex-col items-center px-3 pb-24 pt-2">
+      <div className="w-full flex items-center justify-between py-2">
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">CC</div>
+          <div>
+            <p className="text-white text-sm font-semibold">CryptoUser_88</p>
+            <p className="text-slate-400 text-xs">⭐ 3,250 积分</p>
+          </div>
+        </div>
+        <div className="bg-slate-800 rounded-lg px-3 py-1.5">
+          <p className="text-amber-400 text-xs font-bold">💰 2.56 USDT</p>
+        </div>
+      </div>
+
+      <div className="relative my-2">
+        <div className="absolute top-0 left-1/2 z-20" style={{ transform: 'translateX(-50%) translateY(-2px)', width: 0, height: 0, borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderTop: '18px solid #f59e0b' }} />
+        <motion.div animate={{ rotate: rot }} transition={{ duration: 4, ease: [0.17, 0.67, 0.12, 0.99] }} style={{ width: 280, height: 280 }}>
+          <svg width="280" height="280" viewBox="0 0 300 300">
+            <defs>
+              <radialGradient id="glow"><stop offset="0%" stopColor="#f59e0b" stopOpacity="0.1" /><stop offset="100%" stopColor="transparent" /></radialGradient>
+            </defs>
+            <circle cx="150" cy="150" r="149" fill="url(#glow)" stroke="#f59e0b" strokeWidth="2.5" />
+            <WheelSVG />
+          </svg>
+        </motion.div>
+        <button onClick={spin} disabled={spinning || spins <= 0} className="absolute top-1/2 left-1/2 z-10 w-14 h-14 rounded-full font-bold text-white text-xs" style={{ transform: 'translate(-50%,-50%)', background: spinning || spins <= 0 ? '#475569' : 'linear-gradient(135deg,#f59e0b,#d97706)', boxShadow: spinning ? 'none' : '0 0 24px rgba(245,158,11,0.5)' }}>
+          {spinning ? '...' : 'SPIN'}
+        </button>
+      </div>
+
+      <div className="flex items-center gap-3 my-1">
+        <p className="text-slate-300 text-sm">🎫 剩余次数: <span className="text-amber-400 font-bold">{spins}</span></p>
+        <button className="text-amber-400 text-xs underline">获取更多 &gt;</button>
+      </div>
+
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">🧩 碎片收集</p>
+        <div className="mb-2"><p className="text-xs text-slate-400 mb-1">🎟️ 世界杯门票 2/6</p><Dots have={2} total={6} /></div>
+        <div><p className="text-xs text-slate-400 mb-1">🏅 黄金产品 1/5</p><Dots have={1} total={5} /></div>
+      </div>
+
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">📋 快捷任务</p>
+        {[{ n: '关注频道', r: '+1 次抽奖', d: true }, { n: '邀请好友', r: '+2 次抽奖', d: false }, { n: '绑定钱包', r: '+3 次抽奖', d: false }, { n: '每日签到', r: '+1 次抽奖', d: true }].map((t, i) => (
+          <div key={i} className="flex items-center justify-between py-2 border-b border-slate-700 last:border-0">
+            <div><p className="text-white text-xs">{t.n}</p><p className="text-amber-400 text-xs">{t.r}</p></div>
+            <button className={`px-3 py-1 rounded-full text-xs font-semibold ${t.d ? 'bg-slate-600 text-slate-400' : 'bg-amber-500 text-white'}`}>{t.d ? '已完成' : '去完成'}</button>
+          </div>
+        ))}
+      </div>
+
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-1">💰 可提现进度</p>
+        <div className="flex justify-between text-xs text-slate-400 mb-1"><span>2.56 USDT</span><span>10.00 USDT</span></div>
+        <div className="w-full bg-slate-700 rounded-full h-2"><div className="bg-gradient-to-r from-amber-500 to-green-500 h-2 rounded-full" style={{ width: '25.6%' }} /></div>
+        <p className="text-slate-500 text-xs mt-1">完成 KYC + 绑定钱包即可提现</p>
+      </div>
+    </div>
+  );
+
+  const renderRewards = () => (
+    <div className="px-3 pb-24 pt-2">
+      <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-4 my-2 border border-slate-700">
+        <p className="text-slate-400 text-xs mb-1">奖励总值</p>
+        <p className="text-2xl font-bold text-amber-400">12.80 <span className="text-base">USDT</span></p>
+        <div className="flex gap-4 mt-2">
+          <div><p className="text-green-400 text-xs">已解锁</p><p className="text-white text-sm font-bold">2.56</p></div>
+          <div><p className="text-amber-400 text-xs">待解锁</p><p className="text-white text-sm font-bold">6.24</p></div>
+          <div><p className="text-slate-500 text-xs">冻结</p><p className="text-white text-sm font-bold">4.00</p></div>
+        </div>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">🔓 解锁进度</p>
+        {[{ n: '授权 Telegram', p: '+20%', d: true }, { n: '绑定 Wallet', p: '+20%', d: false }, { n: 'KYC 认证', p: '+30%', d: false }, { n: 'CC Card 开卡', p: '+30%', d: false }].map((s, i) => (
+          <div key={i} className="flex items-center gap-2 mb-2">
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${s.d ? 'bg-green-500 text-white' : 'bg-slate-700 text-slate-400 border border-slate-600'}`}>{s.d ? '✓' : i + 1}</div>
+            <p className={`flex-1 text-xs ${s.d ? 'text-green-400' : 'text-white'}`}>{s.n}</p>
+            <span className="text-amber-400 text-xs font-bold">{s.p}</span>
+            {!s.d && <ChevronRight size={14} className="text-slate-500" />}
+          </div>
+        ))}
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">🧩 碎片合成</p>
+        <div className="mb-3 p-2 rounded-lg border border-amber-500/30">
+          <div className="flex justify-between items-center mb-2"><p className="text-amber-400 text-xs font-bold">🎟️ 世界杯门票碎片</p><p className="text-slate-400 text-xs">2/6 → 门票抽奖资格</p></div>
+          <div className="flex gap-1.5">{[1, 2, 3, 4, 5, 6].map(i => (<div key={i} className={`flex-1 aspect-square rounded-lg flex items-center justify-center text-base ${i <= 2 ? 'bg-amber-900 border border-amber-400' : 'bg-slate-700 border border-slate-600'}`}>{i <= 2 ? '⚽' : <Lock size={10} className="text-slate-500" />}</div>))}</div>
+        </div>
+        <div className="mb-3 p-2 rounded-lg border border-yellow-600/30">
+          <div className="flex justify-between items-center mb-2"><p className="text-yellow-500 text-xs font-bold">🏅 黄金产品碎片</p><p className="text-slate-400 text-xs">1/5 → 1g 联名金条</p></div>
+          <div className="flex gap-1.5">{[1, 2, 3, 4, 5].map(i => (<div key={i} className={`flex-1 aspect-square rounded-lg flex items-center justify-center text-base ${i <= 1 ? 'bg-yellow-900 border border-yellow-500' : 'bg-slate-700 border border-slate-600'}`}>{i <= 1 ? '🪙' : <Lock size={10} className="text-slate-500" />}</div>))}</div>
+        </div>
+        <div className="p-2 rounded-lg border border-pink-500/30">
+          <p className="text-pink-400 text-xs font-bold mb-2">🎁 NFT 收藏</p>
+          <div className="flex gap-2">
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl">🎨</div>
+            <div className="w-12 h-12 rounded-lg bg-slate-700 border border-dashed border-slate-500 flex items-center justify-center text-slate-500 text-xs">?</div>
+            <div className="w-12 h-12 rounded-lg bg-slate-700 border border-dashed border-slate-500 flex items-center justify-center text-slate-500 text-xs">?</div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">📊 积分明细</p>
+        {[{ d: '转盘抽奖', v: '+500', t: '2分钟前' }, { d: '每日签到', v: '+100', t: '1小时前' }, { d: '邀请好友', v: '+800', t: '3小时前' }, { d: '关注频道', v: '+200', t: '昨天' }, { d: '转盘抽奖', v: '+150', t: '昨天' }].map((r, i) => (
+          <div key={i} className="flex justify-between py-1.5 border-b border-slate-700 last:border-0">
+            <div><p className="text-white text-xs">{r.d}</p><p className="text-slate-500 text-xs">{r.t}</p></div>
+            <p className="text-green-400 text-xs font-bold">{r.v}</p>
+          </div>
+        ))}
+      </div>
+      <button onClick={() => setWdModal(true)} className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm my-2">💳 提现</button>
+    </div>
+  );
+
+  const renderActivity = () => (
+    <div className="px-3 pb-24 pt-2">
+      <div className="w-full h-32 rounded-xl my-2 bg-gradient-to-br from-amber-600 via-amber-500 to-yellow-400 flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg,transparent,transparent 10px,white 10px,white 11px)' }} />
+        <p className="text-4xl mb-1">⚽🏆</p>
+        <p className="text-white font-black text-lg">2026 世界杯专题活动</p>
+        <p className="text-amber-100 text-xs">CodeCoin × FIFA World Cup 2026</p>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-4 my-2 border border-amber-500/20">
+        <div className="flex justify-between items-center mb-3">
+          <p className="text-white text-sm font-bold">🏆 限时奖池</p>
+          <div className="bg-red-500/20 rounded-full px-2 py-0.5"><p className="text-red-400 text-xs font-mono">23:45:12</p></div>
+        </div>
+        <div className="flex justify-around text-center">
+          <div><p className="text-amber-400 font-bold text-lg">50,000</p><p className="text-slate-400 text-xs">USDT</p></div>
+          <div><p className="text-amber-400 font-bold text-lg">10</p><p className="text-slate-400 text-xs">世界杯门票</p></div>
+          <div><p className="text-amber-400 font-bold text-lg">100g</p><p className="text-slate-400 text-xs">黄金</p></div>
+        </div>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">🏅 排行榜 TOP 5</p>
+        {[{ r: '🥇', n: 'Whale_X', p: '128,500', f: 12 }, { r: '🥈', n: 'CryptoKing', p: '95,200', f: 9 }, { r: '🥉', n: 'DiamondH', p: '82,100', f: 8 }, { r: '4', n: 'MoonBoy', p: '65,300', f: 6 }, { r: '5', n: 'SatoshiF', p: '51,800', f: 5 }].map((u, i) => (
+          <div key={i} className="flex items-center gap-2 py-2 border-b border-slate-700 last:border-0">
+            <span className="w-6 text-center text-sm">{u.r}</span>
+            <div className="w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center text-xs text-white">{u.n[0]}</div>
+            <p className="flex-1 text-white text-xs font-semibold">{u.n}</p>
+            <div className="text-right"><p className="text-amber-400 text-xs font-bold">{u.p}</p><p className="text-slate-500 text-xs">{u.f} 碎片</p></div>
+          </div>
+        ))}
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-1">⚔️ 阵营选择</p>
+        <p className="text-slate-400 text-xs mb-3">支持球队获胜，全员瓜分额外奖池！</p>
+        <div className="grid grid-cols-3 gap-2">
+          {['🇧🇷 巴西', '🇦🇷 阿根廷', '🇫🇷 法国', '🇩🇪 德国', '🇪🇸 西班牙', '🏴󠁧󠁢󠁥󠁮󠁧󠁿 英格兰'].map((t, i) => (
+            <button key={i} className="bg-slate-700 hover:bg-slate-600 rounded-lg p-2 text-center text-xs text-white border border-slate-600 hover:border-amber-400 transition-colors">{t}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderProfile = () => (
+    <div className="px-3 pb-24 pt-2">
+      <div className="flex flex-col items-center py-5">
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-2xl font-bold mb-2">CC</div>
+        <p className="text-white font-bold">CryptoUser_88</p>
+        <p className="text-slate-400 text-xs">UID: 88888888</p>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-3">📍 账户状态</p>
+        <div className="flex items-center justify-between mb-2">
+          {['授权', '绑定', 'KYC', '开卡'].map((s, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs mb-1 ${i === 0 ? 'bg-green-500 text-white' : 'bg-slate-700 text-slate-400 border border-slate-600'}`}>{i === 0 ? '✓' : i + 1}</div>
+              <p className={`text-xs ${i === 0 ? 'text-green-400' : 'text-slate-400'}`}>{s}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-0.5"><div className="flex-1 h-1 bg-green-500 rounded-full" /><div className="flex-1 h-1 bg-slate-700 rounded-full" /><div className="flex-1 h-1 bg-slate-700 rounded-full" /></div>
+      </div>
+      {[{ icon: <Wallet size={16} />, n: '绑定钱包', d: '连接 Web3 钱包获取更多奖励', c: 'text-blue-400', b: '未绑定' }, { icon: <Shield size={16} />, n: 'KYC 认证', d: '完成身份认证解锁提现', c: 'text-purple-400', b: '未认证' }, { icon: <CreditCard size={16} />, n: 'CC Card 开卡', d: '开通联名卡享受专属权益', c: 'text-amber-400', b: '未开卡' }].map((m, i) => (
+        <div key={i} className="w-full bg-slate-800 rounded-xl p-3 my-2 flex items-center gap-3">
+          <div className={`w-9 h-9 rounded-lg bg-slate-700 flex items-center justify-center ${m.c}`}>{m.icon}</div>
+          <div className="flex-1"><p className="text-white text-sm font-semibold">{m.n}</p><p className="text-slate-400 text-xs">{m.d}</p></div>
+          <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">{m.b}</span>
+          <ChevronRight size={14} className="text-slate-500" />
+        </div>
+      ))}
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">💳 CC Card 权益对比</p>
+        <div className="grid grid-cols-3 gap-px text-xs">
+          {[['权益', '普通用户', '开卡用户'], ['提现额度', '10 USDT', '无限制'], ['合成加速', '—', '2x'], ['专属NFT', '—', '✓'], ['每日抽奖', '3次', '10次']].map((row, i) => (
+            <React.Fragment key={i}>
+              <div className={`p-1.5 ${i === 0 ? 'text-slate-400' : 'text-slate-300'} ${i % 2 === 0 ? 'bg-slate-700/50' : ''}`}>{row[0]}</div>
+              <div className={`p-1.5 text-center ${i === 0 ? 'text-slate-400' : 'text-slate-400'} ${i % 2 === 0 ? 'bg-slate-700/50' : ''}`}>{row[1]}</div>
+              <div className={`p-1.5 text-center ${i === 0 ? 'text-amber-400 font-bold' : 'text-green-400'} ${i % 2 === 0 ? 'bg-slate-700/50' : ''}`}>{row[2]}</div>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      <div className="w-full bg-slate-800 rounded-xl p-3 my-2">
+        <p className="text-white text-sm font-semibold mb-2">👥 邀请记录</p>
+        <div className="flex justify-around text-center mb-3">
+          <div><p className="text-amber-400 font-bold text-xl">12</p><p className="text-slate-400 text-xs">已邀请</p></div>
+          <div><p className="text-green-400 font-bold text-xl">3.60</p><p className="text-slate-400 text-xs">USDT奖励</p></div>
+          <div><p className="text-purple-400 font-bold text-xl">24</p><p className="text-slate-400 text-xs">抽奖次数</p></div>
+        </div>
+        <button className="w-full py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-bold">📤 邀请好友</button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-black flex justify-center">
+      <div className="w-full max-w-sm relative" style={{ background: '#0f172a', minHeight: '100vh' }}>
+        <div className="overflow-y-auto" style={{ height: 'calc(100vh - 56px)' }}>
+          {tab === 'home' && renderHome()}
+          {tab === 'rewards' && renderRewards()}
+          {tab === 'activity' && renderActivity()}
+          {tab === 'profile' && renderProfile()}
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around py-2 z-30">
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex flex-col items-center gap-0.5">
+              <t.Icon size={20} className={tab === t.id ? 'text-amber-400' : 'text-slate-500'} />
+              <span className={`text-xs ${tab === t.id ? 'text-amber-400 font-bold' : 'text-slate-500'}`}>{t.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <AnimatePresence>
+          {modal && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 flex items-center justify-center bg-black/70" onClick={() => setModal(null)}>
+              <motion.div initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} className="bg-slate-800 rounded-2xl p-6 mx-6 w-64 text-center border-2 relative" style={{ borderColor: modal.color }} onClick={e => e.stopPropagation()}>
+                <button onClick={() => setModal(null)} className="absolute top-3 right-3 text-slate-400"><X size={16} /></button>
+                <p className="text-5xl mb-2">{modal.icon}</p>
+                <p className="text-white font-bold text-lg mb-1">🎉 恭喜获得</p>
+                <p className="font-bold text-lg mb-2" style={{ color: modal.color }}>{modal.name}</p>
+                <p className="text-slate-400 text-xs mb-4">已存入奖励账户</p>
+                <button onClick={() => setModal(null)} className="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm mb-2">继续抽奖</button>
+                <button onClick={() => { setModal(null); setTab('rewards'); }} className="text-amber-400 text-xs underline">查看我的奖励 &gt;</button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {wdModal && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 flex items-center justify-center bg-black/70" onClick={() => setWdModal(false)}>
+              <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }} className="bg-slate-800 rounded-2xl p-5 mx-6 w-64 border border-slate-700" onClick={e => e.stopPropagation()}>
+                <p className="text-white font-bold text-center mb-3">💳 提现校验</p>
+                {[{ n: '绑定 Wallet', d: false }, { n: 'KYC 认证', d: false }, { n: 'CC Card 开卡', d: false }].map((s, i) => (
+                  <div key={i} className="flex items-center gap-2 p-2 rounded-lg mb-2 bg-red-500/10 border border-red-500/30">
+                    <X size={14} className="text-red-400" />
+                    <span className="text-sm flex-1 text-red-400">{s.n}</span>
+                    <button className="text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full">去完成</button>
+                  </div>
+                ))}
+                <p className="text-slate-400 text-xs text-center mt-2 mb-3">请完成以上步骤后再提现</p>
+                <button onClick={() => setWdModal(false)} className="w-full py-2 rounded-lg bg-slate-700 text-slate-300 text-sm">关闭</button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}

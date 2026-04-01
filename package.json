@@ -1,0 +1,22 @@
+{
+  "name": "telegram-lottery-wheel",
+  "version": "1.0.0",
+  "description": "Lottery wheel game for Telegram Mini App",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend && npm run build --workspace=backend",
+    "start:backend": "npm run start --workspace=backend",
+    "check": "node check-env.js",
+    "analyze": "node backend/src/utils/prizeCalculator.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
