@@ -1,9 +1,12 @@
-FROM node:20-alpine as builder
+FROM node:20-slim as builder
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+ARG VITE_API_URL=/api
+ENV VITE_API_URL=${VITE_API_URL}
 
 COPY . .
 RUN npm run build
