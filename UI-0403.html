@@ -1,0 +1,704 @@
+<!DOCTYPE html><html><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"><meta http-equiv="x-dns-prefetch-control" content="off"><script src="https://puc.poecdn.net/authenticated_preview_page/standard.3ef2c256959faf5a756d.js"></script>
+    <meta charset="utf-8">
+    <title>Poe</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://puc.poecdn.net/authenticated_preview_page/disableWebRTC.9710cebe07429a9e8e06.js"></script><meta name="x-poe-allow-downloads" content="true"><meta name="x-poe-datastore-behavior" content="disabled"><script src="https://puc.poecdn.net/authenticated_preview_page/tw.b9024aecac666455e183.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/deps.faccd16000d314dc16d5.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/exports.b0f0f482cdeb5302b0b9.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/renderer.75c73ae6b4235f62945a.js"></script><script>Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _react = require('react'); var _react2 = _interopRequireDefault(_react);
+var _framermotion = require('framer-motion');
+var _lucidereact = require('lucide-react');
+
+const prizes = [
+  { id:0, icon:'💫', name:'再接再厉', lines:['再接再厉'], type:'miss', color:'#64748b' },
+  { id:1, icon:'🪙', name:'0.5 CCUSD', lines:['0.5','CCUSD'], detail:'≈ 0.5 USDC', type:'ccusd', value:0.5, color:'#3b82f6' },
+  { id:2, icon:'💫', name:'再接再厉', lines:['再接再厉'], type:'miss', color:'#64748b' },
+  { id:3, icon:'🔄', name:'次数×1', lines:['次数×1'], type:'spin', value:1, color:'#10b981' },
+  { id:4, icon:'💫', name:'再接再厉', lines:['再接再厉'], type:'miss', color:'#64748b' },
+  { id:5, icon:'🏅', name:'金条碎片', lines:['金条','碎片'], type:'fragment', color:'#eab308' },
+  { id:6, icon:'💫', name:'再接再厉', lines:['再接再厉'], type:'miss', color:'#64748b' },
+  { id:7, icon:'💎', name:'1 CCUSD', lines:['1','CCUSD'], detail:'≈ 1.0 USDC', type:'ccusd', value:1.0, color:'#ef4444' },
+  { id:8, icon:'💫', name:'再接再厉', lines:['再接再厉'], type:'miss', color:'#64748b' },
+  { id:9, icon:'🔄', name:'次数×2', lines:['次数×2'], type:'spin', value:2, color:'#34d399' },
+  { id:10, icon:'🎟️', name:'门票碎片', lines:['门票','碎片'], type:'fragment', color:'#f59e0b' },
+  { id:11, icon:'🎁', name:'NFT球星卡', lines:['NFT','球星卡'], fullName:'限量赛事球星卡 NFT', type:'nft', color:'#ec4899' },
+];
+
+const ENCOURAGEMENTS = [
+  '下次一定！世界杯还在等你 ⚽','差一点就中了！再试一次吧 🍀',
+  '运气正在积攒中… 💪','好运即将降临！继续加油 🌟','冠军都是坚持到最后的人 🏆',
+];
+const PACKAGES = [
+  { qty:10, price:6, perSpin:0.6, discount:10 },
+  { qty:50, price:24, perSpin:0.48, discount:20 },
+  { qty:100, price:45, perSpin:0.45, discount:25 },
+];
+const TEAMS = {
+  ARG:{name:'阿根廷',flag:'🇦🇷'},BRA:{name:'巴西',flag:'🇧🇷'},
+  FRA:{name:'法国',flag:'🇫🇷'},GER:{name:'德国',flag:'🇩🇪'},
+  ESP:{name:'西班牙',flag:'🇪🇸'},ENG:{name:'英格兰',flag:'🏴'},
+  POR:{name:'葡萄牙',flag:'🇵🇹'},NED:{name:'荷兰',flag:'🇳🇱'},
+  USA:{name:'美国',flag:'🇺🇸'},MEX:{name:'墨西哥',flag:'🇲🇽'},
+  JPN:{name:'日本',flag:'🇯🇵'},KOR:{name:'韩国',flag:'🇰🇷'},
+};
+const MATCHES = [
+  { id:1, home:'ARG', away:'USA', time:'06/12 21:00', pool:12580, participants:834, stage:'小组赛 A组' },
+  { id:2, home:'BRA', away:'JPN', time:'06/12 00:00', pool:8920, participants:567, stage:'小组赛 B组' },
+  { id:3, home:'FRA', away:'KOR', time:'06/13 03:00', pool:6340, participants:423, stage:'小组赛 C组' },
+  { id:4, home:'GER', away:'MEX', time:'06/13 21:00', pool:9100, participants:612, stage:'小组赛 D组' },
+];
+const STAGES = [
+  { id:'r16', name:'十六强', deadline:'06/28', inv:'5-20', status:'open', pool:45200 },
+  { id:'qf', name:'八强', deadline:'07/04', inv:'5-20', status:'open', pool:32800 },
+  { id:'sf', name:'四强', deadline:'07/09', inv:'10-30', status:'upcoming', pool:0 },
+  { id:'final', name:'决赛队伍', deadline:'07/13', inv:'10-50', status:'upcoming', pool:0 },
+];
+
+const WheelSVG = () => {
+  const cx=150,cy=150,r=140,n=12;
+  const segs=[];
+  for(let i=0;i<n;i++){
+    const ang=360/n,s=i*ang-90,e=s+ang;
+    const sr=(s*Math.PI)/180,er=(e*Math.PI)/180;
+    const x1=cx+r*Math.cos(sr),y1=cy+r*Math.sin(sr);
+    const x2=cx+r*Math.cos(er),y2=cy+r*Math.sin(er);
+    const path=`M${cx},${cy} L${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2} Z`;
+    const mid=(s+e)/2,ma=(mid*Math.PI)/180,ta=mid+90;
+    const fill=i%2===0?'#1e293b':'#2d3a4f';
+    const p=prizes[i];
+    const id_r=r*0.70,ix=cx+id_r*Math.cos(ma),iy=cy+id_r*Math.sin(ma);
+    const tEls=[];
+    if(p.lines.length===1){
+      const td=r*0.42,tx=cx+td*Math.cos(ma),ty=cy+td*Math.sin(ma);
+      tEls.push(_react2.default.createElement('text', { key: `t${i}`, x: tx, y: ty, textAnchor: "middle", dominantBaseline: "middle", fontSize: "6.5", fill: p.color, fontWeight: "bold", transform: `rotate(${ta},${tx},${ty})`,}, p.lines[0]));
+    } else {
+      const td1=r*0.50,td2=r*0.35;
+      const tx1=cx+td1*Math.cos(ma),ty1=cy+td1*Math.sin(ma);
+      const tx2=cx+td2*Math.cos(ma),ty2=cy+td2*Math.sin(ma);
+      tEls.push(_react2.default.createElement('text', { key: `t${i}a`, x: tx1, y: ty1, textAnchor: "middle", dominantBaseline: "middle", fontSize: "6.5", fill: p.color, fontWeight: "bold", transform: `rotate(${ta},${tx1},${ty1})`,}, p.lines[0]));
+      tEls.push(_react2.default.createElement('text', { key: `t${i}b`, x: tx2, y: ty2, textAnchor: "middle", dominantBaseline: "middle", fontSize: "5.5", fill: p.color, fontWeight: "bold", opacity: "0.75", transform: `rotate(${ta},${tx2},${ty2})`,}, p.lines[1]));
+    }
+    segs.push(
+      _react2.default.createElement('g', { key: i,}
+        , _react2.default.createElement('path', { d: path, fill: fill, stroke: "#475569", strokeWidth: "0.5",})
+        , _react2.default.createElement('text', { x: ix, y: iy, textAnchor: "middle", dominantBaseline: "middle", fontSize: "14", transform: `rotate(${ta},${ix},${iy})`,}, p.icon)
+        , tEls
+      )
+    );
+  }
+  return segs;
+};
+
+ function CodeCoinApp(){
+  const [tab,setTab]=_react.useState.call(void 0, 'home');
+  const [spins,setSpins]=_react.useState.call(void 0, 3);
+  const [spinning,setSpinning]=_react.useState.call(void 0, false);
+  const [rot,setRot]=_react.useState.call(void 0, 0);
+  const [modal,setModal]=_react.useState.call(void 0, null);
+  const [wdModal,setWdModal]=_react.useState.call(void 0, false);
+  const [cardModal,setCardModal]=_react.useState.call(void 0, false);
+  const [buyModal,setBuyModal]=_react.useState.call(void 0, false);
+  const [balance,setBalance]=_react.useState.call(void 0, 2.56);
+  const [encourageMsg,setEncourageMsg]=_react.useState.call(void 0, '');
+  const [selectedPkg,setSelectedPkg]=_react.useState.call(void 0, 0);
+  const [customQty,setCustomQty]=_react.useState.call(void 0, 5);
+  const [predictTab,setPredictTab]=_react.useState.call(void 0, 'daily');
+  const [selMatch,setSelMatch]=_react.useState.call(void 0, null);
+  const [betAmt,setBetAmt]=_react.useState.call(void 0, 5);
+  const [betChoice,setBetChoice]=_react.useState.call(void 0, null);
+  const [betModal,setBetModal]=_react.useState.call(void 0, false);
+  const [toast,setToast]=_react.useState.call(void 0, null);
+  const [myBets,setMyBets]=_react.useState.call(void 0, []);
+  const [champPick,setChampPick]=_react.useState.call(void 0, null);
+  const [champAmt,setChampAmt]=_react.useState.call(void 0, 20);
+
+  _react.useEffect.call(void 0, ()=>{if(toast){const t=setTimeout(()=>setToast(null),2500);return()=>clearTimeout(t);}},[toast]);
+
+  const spin=_react.useCallback.call(void 0, ()=>{
+    if(spinning||spins<=0) return;
+    setSpinning(true);
+    setSpins(s=>s-1);
+    const idx=Math.floor(Math.random()*12);
+    const targetAngle=((345-idx*30)%360+360)%360;
+    const extraSpins=(3+Math.floor(Math.random()*3))*360;
+    setRot(prev=>{
+      const cur=((prev%360)+360)%360;
+      let diff=targetAngle-cur;
+      if(diff<=0) diff+=360;
+      return prev+extraSpins+diff;
+    });
+    setTimeout(()=>{
+      setSpinning(false);
+      const prize=prizes[idx];
+      setModal(prize);
+      if(prize.type==='spin') setSpins(s=>s+prize.value);
+      if(prize.type==='ccusd') setBalance(b=>+(b+prize.value).toFixed(2));
+      if(prize.type==='miss') setEncourageMsg(ENCOURAGEMENTS[Math.floor(Math.random()*ENCOURAGEMENTS.length)]);
+    },4000);
+  },[spinning,spins]);
+
+  const getBuyInfo=()=>{
+    if(selectedPkg==='custom') return {qty:customQty,cost:+(customQty*0.67).toFixed(2)};
+    const pkg=PACKAGES[selectedPkg];
+    return pkg?{qty:pkg.qty,cost:pkg.price}:{qty:0,cost:0};
+  };
+  const handleBuySpins=()=>{
+    const{qty,cost}=getBuyInfo();
+    if(qty===0||cost>balance) return;
+    setBalance(b=>+(b-cost).toFixed(2));
+    setSpins(s=>s+qty);
+    setBuyModal(false);
+    setToast({type:'buy',msg:`成功购买 ${qty} 次抽奖！`});
+  };
+  const placeBet=()=>{
+    if(!selMatch||!betChoice||betAmt>balance) return;
+    setMyBets(b=>[...b,{matchId:selMatch.id,match:selMatch,choice:betChoice,amount:betAmt}]);
+    setBalance(b=>+(b-betAmt).toFixed(2));
+    setBetModal(false); setBetChoice(null);
+    setToast({type:'bet',msg:'投注成功!'});
+  };
+
+  const tabs_nav=[
+    {id:'home',label:'首页',Icon:_lucidereact.Home},{id:'rewards',label:'奖励',Icon:_lucidereact.Gift},
+    {id:'predict',label:'竞猜',Icon:_lucidereact.Target},{id:'profile',label:'我的',Icon:_lucidereact.User},
+  ];
+
+  const renderHome=()=>(
+    _react2.default.createElement('div', { className: "flex flex-col items-center px-3 pb-24 pt-2"     ,}
+      , _react2.default.createElement('div', { className: "w-full flex items-center justify-between py-2"    ,}
+        , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+          , _react2.default.createElement('div', { className: "w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm"           ,}, "CC")
+          , _react2.default.createElement('p', { className: "text-white text-sm font-semibold"  ,}, "CryptoUser_88")
+        )
+        , _react2.default.createElement('div', { className: "bg-slate-800 rounded-lg px-3 py-1.5"   ,}, _react2.default.createElement('p', { className: "text-amber-400 text-xs font-bold"  ,}, "💰 " , balance.toFixed(2), " CCUSD" ))
+      )
+
+      , _react2.default.createElement('div', { className: "relative my-2" ,}
+        , _react2.default.createElement('div', { className: "absolute top-0 left-1/2 z-20"   , style: {transform:'translateX(-50%) translateY(-2px)',width:0,height:0,borderLeft:'10px solid transparent',borderRight:'10px solid transparent',borderTop:'18px solid #f59e0b'},})
+        , _react2.default.createElement(_framermotion.motion.div, { animate: {rotate:rot}, transition: {duration:4,ease:[0.17,0.67,0.12,0.99]}, style: {width:300,height:300},}
+          , _react2.default.createElement('svg', { width: "300", height: "300", viewBox: "0 0 300 300"   ,}
+            , _react2.default.createElement('defs', null, _react2.default.createElement('radialGradient', { id: "glow",}, _react2.default.createElement('stop', { offset: "0%", stopColor: "#f59e0b", stopOpacity: "0.1",}), _react2.default.createElement('stop', { offset: "100%", stopColor: "transparent",})))
+            , _react2.default.createElement('circle', { cx: "150", cy: "150", r: "149", fill: "url(#glow)", stroke: "#f59e0b", strokeWidth: "2.5",})
+            , _react2.default.createElement(WheelSVG, null)
+          )
+        )
+        , _react2.default.createElement('button', { onClick: spin, disabled: spinning||spins<=0, className: "absolute top-1/2 left-1/2 z-10 w-16 h-16 rounded-full font-bold text-white text-xs"         , style: {transform:'translate(-50%,-50%)',background:spinning||spins<=0?'#475569':'linear-gradient(135deg,#f59e0b,#d97706)',boxShadow:spinning?'none':'0 0 24px rgba(245,158,11,0.5)'},}
+          , spinning?'...':'SPIN'
+        )
+      )
+
+      , _react2.default.createElement('div', { className: "flex items-center gap-3 my-1"   ,}
+        , _react2.default.createElement('p', { className: "text-slate-300 text-sm" ,}, "🎫 剩余次数: "  , _react2.default.createElement('span', { className: "text-amber-400 font-bold" ,}, spins))
+        , _react2.default.createElement('button', { onClick: ()=>{setBuyModal(true);setSelectedPkg(0);}, className: "text-amber-400 text-xs font-semibold flex items-center gap-1 bg-amber-500/10 px-2 py-1 rounded-full border border-amber-500/30"           ,}
+          , _react2.default.createElement(_lucidereact.ShoppingCart, { size: 11,}), " 购买次数（CC Wallet）"
+        )
+      )
+
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-3"   ,}, "🧩 碎片收集 & 合成"   )
+        , _react2.default.createElement('div', { className: "mb-3 p-2 rounded-lg border border-amber-500/30 bg-amber-500/5"     ,}
+          , _react2.default.createElement('div', { className: "flex justify-between items-center mb-1.5"   ,}
+            , _react2.default.createElement('p', { className: "text-amber-400 text-xs font-bold"  ,}, "🎟️ 世界杯门票碎片" )
+            , _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "2/6 → 门票赠送或等值USDC"  )
+          )
+          , _react2.default.createElement('div', { className: "flex gap-1.5" ,}, [1,2,3,4,5,6].map(i=>(
+            _react2.default.createElement('div', { key: i, className: `flex-1 aspect-square rounded-lg flex items-center justify-center text-sm ${i<=2?'bg-amber-900 border border-amber-400':'bg-slate-700 border border-slate-600'}`,}, i<=2?'⚽':_react2.default.createElement(_lucidereact.Lock, { size: 8, className: "text-slate-500",}))
+          )))
+        )
+        , _react2.default.createElement('div', { className: "mb-3 p-2 rounded-lg border border-yellow-600/30 bg-yellow-600/5"     ,}
+          , _react2.default.createElement('div', { className: "flex justify-between items-center mb-1.5"   ,}
+            , _react2.default.createElement('p', { className: "text-yellow-500 text-xs font-bold"  ,}, "🏅 金条碎片" )
+            , _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "1/5 → 1g 联名金条"   )
+          )
+          , _react2.default.createElement('div', { className: "flex gap-1.5" ,}, [1,2,3,4,5].map(i=>(
+            _react2.default.createElement('div', { key: i, className: `flex-1 aspect-square rounded-lg flex items-center justify-center text-sm ${i<=1?'bg-yellow-900 border border-yellow-500':'bg-slate-700 border border-slate-600'}`,}, i<=1?'🪙':_react2.default.createElement(_lucidereact.Lock, { size: 8, className: "text-slate-500",}))
+          )))
+        )
+        , _react2.default.createElement('div', { className: "p-2 rounded-lg border border-pink-500/30 bg-pink-500/5"    ,}
+          , _react2.default.createElement('div', { className: "flex justify-between items-center mb-1.5"   ,}
+            , _react2.default.createElement('p', { className: "text-pink-400 text-xs font-bold"  ,}, "⭐ 限量赛事球星卡 NFT"  )
+            , _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "1/3 → 最低价值 300 USDC"    )
+          )
+          , _react2.default.createElement('div', { className: "flex gap-2" ,}
+            , _react2.default.createElement('div', { className: "w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl"         ,}, "🎨")
+            , _react2.default.createElement('div', { className: "w-12 h-12 rounded-lg bg-slate-700 border border-dashed border-slate-500 flex items-center justify-center text-slate-500 text-xs"           ,}, "?")
+            , _react2.default.createElement('div', { className: "w-12 h-12 rounded-lg bg-slate-700 border border-dashed border-slate-500 flex items-center justify-center text-slate-500 text-xs"           ,}, "?")
+          )
+        )
+      )
+
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "📋 快捷任务" )
+        , _react2.default.createElement('div', { className: "flex items-center justify-between py-2.5 border-b border-slate-700 bg-amber-500/5 rounded-lg px-2 mb-1"         ,}
+          , _react2.default.createElement('div', { className: "flex-1 min-w-0 mr-2"  ,}
+            , _react2.default.createElement('p', { className: "text-white text-xs font-bold"  ,}, "💳 开通 CC Card"   )
+            , _react2.default.createElement('p', { className: "text-amber-400 font-bold whitespace-nowrap truncate"   , style: {fontSize:'9px'},}, "+10 Spins +5 CCUSD + 🎫×1 + 🏅×2 + ⭐×1"         )
+          )
+          , _react2.default.createElement('button', { onClick: ()=>setCardModal(true), className: "px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-500 to-yellow-500 text-black flex-shrink-0"         ,}, "去开卡")
+        )
+        , _react2.default.createElement('div', { className: "flex items-center justify-between py-2 border-b border-slate-700"     ,}
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-white text-xs" ,}, "绑定钱包"), _react2.default.createElement('p', { className: "text-amber-400 text-xs" ,}, "+3 次抽奖" ))
+          , _react2.default.createElement('button', { className: "px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white"      ,}, "去完成")
+        )
+        , [{n:'关注频道',r:'+1 次抽奖',d:true},{n:'每日签到',r:'+1 次抽奖',d:true},{n:'邀请好友',r:'+2 次抽奖/人',d:false}].map((t,i)=>(
+          _react2.default.createElement('div', { key: i, className: "flex items-center justify-between py-2 border-b border-slate-700 last:border-0"      ,}
+            , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-white text-xs" ,}, t.n), _react2.default.createElement('p', { className: "text-amber-400 text-xs" ,}, t.r))
+            , _react2.default.createElement('button', { className: `px-3 py-1 rounded-full text-xs font-semibold ${t.d?'bg-slate-600 text-slate-400':'bg-amber-500 text-white'}`,}, t.d?'已完成':'去完成')
+          )
+        ))
+      )
+
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-1"   ,}, "💰 可提现进度" )
+        , _react2.default.createElement('div', { className: "flex justify-between text-xs text-slate-400 mb-1"    ,}, _react2.default.createElement('span', null, balance.toFixed(2), " CCUSD" ), _react2.default.createElement('span', null, "10.00 CCUSD" ))
+        , _react2.default.createElement('div', { className: "w-full bg-slate-700 rounded-full h-2"   ,}, _react2.default.createElement('div', { className: "bg-gradient-to-r from-amber-500 to-green-500 h-2 rounded-full"    , style: {width:`${Math.min(balance/10*100,100)}%`},}))
+        , _react2.default.createElement('p', { className: "text-amber-400 text-xs mt-1"  ,}, "💳 完成开卡任务即可 0 手续费提现"   )
+      )
+    )
+  );
+
+  const renderRewards=()=>(
+    _react2.default.createElement('div', { className: "px-3 pb-24 pt-2"  ,}
+      , _react2.default.createElement('div', { className: "w-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-4 my-2 border border-slate-700"        ,}
+        , _react2.default.createElement('p', { className: "text-slate-400 text-xs mb-1"  ,}, "奖励总值 " , _react2.default.createElement('span', { className: "text-slate-500",}, "(CCUSD ≈ USDC 1:1)"   ))
+        , _react2.default.createElement('p', { className: "text-2xl font-bold text-amber-400"  ,}, "12.80 " , _react2.default.createElement('span', { className: "text-base",}, "CCUSD"))
+        , _react2.default.createElement('div', { className: "flex gap-4 mt-2"  ,}
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-green-400 text-xs" ,}, "已解锁"), _react2.default.createElement('p', { className: "text-white text-sm font-bold"  ,}, balance.toFixed(2)))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 text-xs" ,}, "待解锁"), _react2.default.createElement('p', { className: "text-white text-sm font-bold"  ,}, "6.24"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, "冻结"), _react2.default.createElement('p', { className: "text-white text-sm font-bold"  ,}, "4.00"))
+        )
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2 border border-slate-700"      ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "🔓 提现解锁进度" )
+        , _react2.default.createElement('div', { className: "space-y-2.5",}
+          , [
+            {label:'绑定钱包',done:false,icon:_react2.default.createElement(_lucidereact.Wallet, { size: 14,})},
+            {label:'CC Card 开卡（含身份认证）',done:false,icon:_react2.default.createElement(_lucidereact.CreditCard, { size: 14,})},
+            {label:'余额 ≥ 10 CCUSD',done:false,icon:_react2.default.createElement(_lucidereact.TrendingUp, { size: 14,})},
+          ].map((step,i)=>(
+            _react2.default.createElement('div', { key: i, className: `flex items-center gap-2.5 p-2 rounded-lg ${step.done?'bg-green-500/10 border border-green-500/20':'bg-slate-700/50 border border-slate-600/50'}`,}
+              , _react2.default.createElement('div', { className: `w-6 h-6 rounded-full flex items-center justify-center ${step.done?'bg-green-500 text-white':'bg-slate-600 text-slate-400'}`,}, step.done?_react2.default.createElement(_lucidereact.Check, { size: 12,}):step.icon)
+              , _react2.default.createElement('span', { className: `text-xs flex-1 ${step.done?'text-green-400':'text-slate-300'}`,}, step.label)
+              , step.done?_react2.default.createElement('span', { className: "text-xs text-green-400 font-bold"  ,}, "✓ 已完成" ):_react2.default.createElement('button', { onClick: ()=>{if(i===1) setCardModal(true);}, className: "text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full"     ,}, "去完成")
+            )
+          ))
+        )
+        , _react2.default.createElement('div', { className: "mt-2.5 bg-slate-700/50 rounded-lg p-2"   ,}
+          , _react2.default.createElement('div', { className: "flex justify-between text-xs text-slate-400 mb-1"    ,}, _react2.default.createElement('span', null, balance.toFixed(2), " / 10.00 CCUSD"   ), _react2.default.createElement('span', null, Math.min(Math.round(balance/10*100),100), "%"))
+          , _react2.default.createElement('div', { className: "w-full bg-slate-600 rounded-full h-1.5"   ,}, _react2.default.createElement('div', { className: "bg-gradient-to-r from-amber-500 to-green-500 h-1.5 rounded-full transition-all"     , style: {width:`${Math.min(balance/10*100,100)}%`},}))
+        )
+        , _react2.default.createElement('p', { className: "text-amber-400 text-xs mt-2 text-center"   ,}, "💳 完成开卡即可 0 手续费提现 · CCUSD ≈ USDC 1:1"        )
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "🏅 竞猜排行榜 TOP 5"   )
+        , [{r:'🥇',n:'Whale_X',p:'128,500',f:12},{r:'🥈',n:'CryptoKing',p:'95,200',f:9},{r:'🥉',n:'DiamondH',p:'82,100',f:8},{r:'4',n:'MoonBoy',p:'65,300',f:6},{r:'5',n:'SatoshiF',p:'51,800',f:5}].map((u,i)=>(
+          _react2.default.createElement('div', { key: i, className: "flex items-center gap-2 py-2 border-b border-slate-700 last:border-0"      ,}
+            , _react2.default.createElement('span', { className: "w-6 text-center text-sm"  ,}, u.r)
+            , _react2.default.createElement('div', { className: "w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center text-xs text-white"        ,}, u.n[0])
+            , _react2.default.createElement('p', { className: "flex-1 text-white text-xs font-semibold"   ,}, u.n)
+            , _react2.default.createElement('div', { className: "text-right",}, _react2.default.createElement('p', { className: "text-amber-400 text-xs font-bold"  ,}, u.p, " CCUSD" ), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, u.f, " 碎片" ))
+          )
+        ))
+      )
+      , _react2.default.createElement('button', { onClick: ()=>setWdModal(true), className: "w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm my-2"         ,}, "💳 提现" )
+    )
+  );
+
+  const renderPredict=()=>(
+    _react2.default.createElement('div', { className: "px-3 pb-24 pt-2"  ,}
+      , _react2.default.createElement('div', { className: "w-full h-28 rounded-xl my-2 bg-gradient-to-br from-amber-600 via-amber-500 to-yellow-400 flex flex-col items-center justify-center relative overflow-hidden"             ,}
+        , _react2.default.createElement('div', { className: "absolute inset-0 opacity-10"  , style: {backgroundImage:'repeating-linear-gradient(45deg,transparent,transparent 10px,white 10px,white 11px)'},})
+        , _react2.default.createElement('p', { className: "text-3xl mb-1" ,}, "⚽🏆")
+        , _react2.default.createElement('p', { className: "text-white font-black text-base"  ,}, "2026 世界杯专题活动" )
+        , _react2.default.createElement('p', { className: "text-amber-100 text-xs" ,}, "CodeCoin × FIFA World Cup 2026"     )
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2 border border-amber-500/20"      ,}
+        , _react2.default.createElement('div', { className: "flex justify-between items-center mb-2"   ,}
+          , _react2.default.createElement('p', { className: "text-white text-sm font-bold"  ,}, "🏆 限时奖池" )
+          , _react2.default.createElement('div', { className: "bg-red-500/20 rounded-full px-2 py-0.5"   ,}, _react2.default.createElement('p', { className: "text-red-400 text-xs font-mono"  ,}, "23:45:12"))
+        )
+        , _react2.default.createElement('div', { className: "flex justify-around text-center"  ,}
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-base"  ,}, "50,000"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "CCUSD"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-base"  ,}, "10"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "世界杯门票"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-base"  ,}, "100g"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "黄金"))
+        )
+      )
+      , _react2.default.createElement('div', { className: "flex justify-between items-center py-2 mb-1"    ,}
+        , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-white text-base font-bold"  ,}, "⚽ 世界杯竞猜" ), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, "FIFA 2026 · 预测赢奖池 · CCUSD ≈ USDC 1:1"        ))
+        , _react2.default.createElement('div', { className: "bg-slate-800 rounded-lg px-3 py-1.5"   ,}, _react2.default.createElement('p', { className: "text-green-400 text-xs font-bold"  ,}, "💰 " , balance.toFixed(2), " CCUSD" ))
+      )
+      , _react2.default.createElement('div', { className: "flex gap-1 bg-slate-800 rounded-xl p-1 mb-3"     ,}
+        , [{k:'daily',l:'⚡ 单场'},{k:'stage',l:'🏆 阶段'},{k:'champion',l:'👑 冠军/阵营'}].map(t=>(
+          _react2.default.createElement('button', { key: t.k, onClick: ()=>setPredictTab(t.k), className: `flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${predictTab===t.k?'bg-amber-500 text-white':'text-slate-400'}`,}, t.l)
+        ))
+      )
+      , predictTab==='daily' && (
+        _react2.default.createElement('div', { className: "space-y-3",}
+          , MATCHES.map((m,idx)=>{
+            const h=TEAMS[m.home],a=TEAMS[m.away];
+            const bet=myBets.find(b=>b.matchId===m.id);
+            return (
+              _react2.default.createElement(_framermotion.motion.div, { key: m.id, initial: {opacity:0,y:10}, animate: {opacity:1,y:0}, transition: {delay:idx*0.05}, className: "bg-slate-800 rounded-xl p-3 border border-slate-700"    ,}
+                , _react2.default.createElement('div', { className: "flex justify-between items-center mb-2"   ,}
+                  , _react2.default.createElement('span', { className: "text-xs text-slate-400 bg-slate-700 px-2 py-0.5 rounded"     ,}, m.stage)
+                  , _react2.default.createElement('div', { className: "flex items-center gap-1 text-xs text-slate-400"    ,}, _react2.default.createElement(_lucidereact.Clock, { size: 10,}), m.time)
+                )
+                , _react2.default.createElement('div', { className: "flex items-center justify-between mb-2"   ,}
+                  , _react2.default.createElement('div', { className: "flex items-center gap-2 flex-1"   ,}, _react2.default.createElement('span', { className: "text-xl",}, h.flag), _react2.default.createElement('span', { className: "text-white font-bold text-sm"  ,}, h.name))
+                  , _react2.default.createElement('span', { className: "text-slate-500 font-bold mx-2"  ,}, "VS")
+                  , _react2.default.createElement('div', { className: "flex items-center gap-2 flex-1 justify-end"    ,}, _react2.default.createElement('span', { className: "text-white font-bold text-sm"  ,}, a.name), _react2.default.createElement('span', { className: "text-xl",}, a.flag))
+                )
+                , _react2.default.createElement('div', { className: "flex justify-between items-center text-xs text-slate-400 mb-2"     ,}
+                  , _react2.default.createElement('span', { className: "flex items-center gap-1"  ,}, _react2.default.createElement(_lucidereact.Users, { size: 10,}), m.participants, "人")
+                  , _react2.default.createElement('span', { className: "flex items-center gap-1 text-green-400 font-bold"    ,}, _react2.default.createElement(_lucidereact.TrendingUp, { size: 10,}), m.pool.toLocaleString(), " CCUSD" )
+                )
+                , bet?(
+                  _react2.default.createElement('div', { className: "bg-green-500/10 border border-green-500/30 rounded-lg p-2 text-center"     ,}
+                    , _react2.default.createElement('span', { className: "text-green-400 text-xs font-bold"  ,}, "✅ 已投 "  , bet.amount, " CCUSD — "   , bet.choice==='home'?`${h.name}胜`:bet.choice==='draw'?'平局':`${a.name}胜`)
+                  )
+                ):(
+                  _react2.default.createElement('button', { onClick: ()=>{setSelMatch(m);setBetChoice(null);setBetAmt(5);setBetModal(true);}, className: "w-full py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg font-bold text-xs"        ,}, "参与竞猜")
+                )
+              )
+            );
+          })
+        )
+      )
+      , predictTab==='stage' && (
+        _react2.default.createElement('div', { className: "space-y-3",}
+          , _react2.default.createElement('div', { className: "bg-purple-500/10 border border-purple-500/20 rounded-xl p-3"    ,}
+            , _react2.default.createElement('p', { className: "text-purple-300 text-xs" ,}, "🏅 预测晋级队伍，猜对瓜分奖池 + 赢取 "    , _react2.default.createElement('span', { className: "text-yellow-400 font-bold" ,}, "黄金兑换券"))
+          )
+          , STAGES.map(s=>(
+            _react2.default.createElement('div', { key: s.id, className: "bg-slate-800 rounded-xl p-3 border border-slate-700"    ,}
+              , _react2.default.createElement('div', { className: "flex justify-between items-center mb-2"   ,}
+                , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}, _react2.default.createElement(_lucidereact.Trophy, { size: 16, className: "text-amber-400",}), _react2.default.createElement('span', { className: "text-white font-bold text-sm"  ,}, s.name, "预测"))
+                , _react2.default.createElement('span', { className: `text-xs px-2 py-0.5 rounded-full font-bold ${s.status==='open'?'bg-green-500/20 text-green-400':'bg-slate-700 text-slate-500'}`,}, s.status==='open'?'进行中':'即将开放')
+              )
+              , _react2.default.createElement('div', { className: "flex justify-between text-xs text-slate-400 mb-2"    ,}
+                , _react2.default.createElement('span', null, "截止: " , s.deadline), _react2.default.createElement('span', null, "投入: " , s.inv, " CCUSD" ), s.pool>0&&_react2.default.createElement('span', { className: "text-green-400 font-bold" ,}, s.pool.toLocaleString())
+              )
+              , _react2.default.createElement('button', { disabled: s.status!=='open', className: `w-full py-2 rounded-lg text-xs font-bold ${s.status==='open'?'bg-amber-500 text-white':'bg-slate-700 text-slate-500 cursor-not-allowed'}`,}, s.status==='open'?'选择队伍 →':'暂未开放')
+            )
+          ))
+        )
+      )
+      , predictTab==='champion' && (
+        _react2.default.createElement('div', null
+          , _react2.default.createElement('div', { className: "bg-gradient-to-br from-amber-500/10 to-red-500/10 border border-amber-500/20 rounded-xl p-3 mb-3"       ,}
+            , _react2.default.createElement('p', { className: "text-amber-400 font-bold text-sm mb-1"   ,}, "👑 冠军竞猜 / ⚔️ 阵营选择"    )
+            , _react2.default.createElement('p', { className: "text-slate-300 text-xs mb-1"  ,}, "选择你心中的冠军，加入阵营，夺冠后全员瓜分超级奖池")
+            , _react2.default.createElement('p', { className: "text-amber-300 text-xs mb-2"  ,}, "💳 CC Card 用户额外 +25% 奖池加成"     )
+            , _react2.default.createElement('div', { className: "flex gap-4" ,}
+              , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-green-400 font-bold text-sm"  ,}, "156,280"), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, "奖池 CCUSD" ))
+              , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-blue-400 font-bold text-sm"  ,}, "4,238"), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, "参与人数"))
+              , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-sm"  ,}, "🥇×10"), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, "1g 金条" ))
+            )
+          )
+          , _react2.default.createElement('div', { className: "grid grid-cols-3 gap-2 mb-3"   ,}
+            , Object.entries(TEAMS).map(([code,team])=>(
+              _react2.default.createElement(_framermotion.motion.button, { key: code, whileTap: {scale:0.95}, onClick: ()=>setChampPick(code), className: `p-2.5 rounded-xl text-center border transition-all ${champPick===code?'bg-amber-500/20 border-amber-400':'bg-slate-800 border-slate-700'}`,}
+                , _react2.default.createElement('span', { className: "text-xl block mb-0.5"  ,}, team.flag)
+                , _react2.default.createElement('span', { className: `text-xs font-bold ${champPick===code?'text-amber-400':'text-slate-300'}`,}, team.name)
+              )
+            ))
+          )
+          , _react2.default.createElement(_framermotion.AnimatePresence, null
+            , champPick && (
+              _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0,y:15}, animate: {opacity:1,y:0}, exit: {opacity:0}, className: "bg-slate-800 rounded-xl p-3 border border-amber-500/30"    ,}
+                , _react2.default.createElement('p', { className: "text-white font-bold text-sm mb-2 text-center"    ,}, TEAMS[champPick].flag, " " , TEAMS[champPick].name)
+                , _react2.default.createElement('div', { className: "flex gap-2 mb-2"  ,}
+                  , [10,20,30,50].map(a=>(
+                    _react2.default.createElement('button', { key: a, onClick: ()=>setChampAmt(a), className: `flex-1 py-1.5 rounded-lg text-xs font-bold ${champAmt===a?'bg-amber-500 text-white':'bg-slate-700 text-slate-300'}`,}, a)
+                  ))
+                )
+                , _react2.default.createElement('button', { className: "w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl font-bold text-sm"        ,}, "确认投入 " , champAmt, " CCUSD" )
+              )
+            )
+          )
+        )
+      )
+      , myBets.length>0 && (
+        _react2.default.createElement('div', { className: "mt-4",}
+          , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "📋 我的竞猜" )
+          , myBets.map((bet,i)=>{
+            const h=TEAMS[bet.match.home],a=TEAMS[bet.match.away];
+            return (
+              _react2.default.createElement('div', { key: i, className: "bg-slate-800 rounded-lg p-2.5 border border-slate-700 mb-2 flex justify-between items-center"        ,}
+                , _react2.default.createElement('div', { className: "flex items-center gap-1.5 text-sm"   ,}, _react2.default.createElement('span', null, h.flag), _react2.default.createElement('span', { className: "text-slate-500 text-xs" ,}, "vs"), _react2.default.createElement('span', null, a.flag))
+                , _react2.default.createElement('span', { className: "text-slate-400 text-xs" ,}, bet.choice==='home'?`${h.name}胜`:bet.choice==='draw'?'平局':`${a.name}胜`)
+                , _react2.default.createElement('span', { className: "text-amber-400 text-xs font-bold"  ,}, bet.amount, " CCUSD" )
+                , _react2.default.createElement('span', { className: "text-xs text-blue-400 bg-blue-400/10 px-1.5 py-0.5 rounded"     ,}, "等待")
+              )
+            );
+          })
+        )
+      )
+    )
+  );
+
+  const renderProfile=()=>(
+    _react2.default.createElement('div', { className: "px-3 pb-24 pt-2"  ,}
+      , _react2.default.createElement('div', { className: "flex flex-col items-center py-5"   ,}
+        , _react2.default.createElement('div', { className: "w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-2xl font-bold mb-2"            ,}, "CC")
+        , _react2.default.createElement('p', { className: "text-white font-bold" ,}, "CryptoUser_88")
+        , _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "UID: 88888888" )
+        , _react2.default.createElement('div', { className: "bg-slate-800 rounded-lg px-4 py-1.5 mt-2"    ,}, _react2.default.createElement('p', { className: "text-amber-400 text-sm font-bold"  ,}, "💰 " , balance.toFixed(2), " CCUSD" ))
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-3"   ,}, "📍 账户状态" )
+        , _react2.default.createElement('div', { className: "flex items-center justify-around mb-2"   ,}
+          , ['授权','绑定钱包','开卡(含认证)'].map((s,i)=>(
+            _react2.default.createElement('div', { key: i, className: "flex flex-col items-center"  ,}
+              , _react2.default.createElement('div', { className: `w-8 h-8 rounded-full flex items-center justify-center text-xs mb-1 ${i===0?'bg-green-500 text-white':'bg-slate-700 text-slate-400 border border-slate-600'}`,}, i===0?'✓':i+1)
+              , _react2.default.createElement('p', { className: `text-xs ${i===0?'text-green-400':'text-slate-400'}`,}, s)
+            )
+          ))
+        )
+        , _react2.default.createElement('div', { className: "flex gap-0.5" ,}, _react2.default.createElement('div', { className: "flex-1 h-1 bg-green-500 rounded-full"   ,}), _react2.default.createElement('div', { className: "flex-1 h-1 bg-slate-700 rounded-full"   ,}))
+      )
+      , [
+        {icon:_react2.default.createElement(_lucidereact.Wallet, { size: 16,}),n:'绑定钱包',d:'连接 Web3 钱包',c:'text-blue-400',b:'未绑定'},
+        {icon:_react2.default.createElement(_lucidereact.CreditCard, { size: 16,}),n:'CC Card 开卡',d:'含身份认证 · 0 手续费提现',c:'text-amber-400',b:'未开卡',action:()=>setCardModal(true)},
+      ].map((m,i)=>(
+        _react2.default.createElement('div', { key: i, onClick: m.action, className: "w-full bg-slate-800 rounded-xl p-3 my-2 flex items-center gap-3 cursor-pointer"        ,}
+          , _react2.default.createElement('div', { className: `w-9 h-9 rounded-lg bg-slate-700 flex items-center justify-center ${m.c}`,}, m.icon)
+          , _react2.default.createElement('div', { className: "flex-1",}, _react2.default.createElement('p', { className: "text-white text-sm font-semibold"  ,}, m.n), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, m.d))
+          , _react2.default.createElement('span', { className: "text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full"     ,}, m.b)
+          , _react2.default.createElement(_lucidereact.ChevronRight, { size: 14, className: "text-slate-500",})
+        )
+      ))
+      , _react2.default.createElement('div', { className: "w-full bg-gradient-to-br from-amber-900/30 to-yellow-900/20 rounded-xl p-3 my-2 border border-amber-500/20"        ,}
+        , _react2.default.createElement('p', { className: "text-amber-400 text-sm font-bold mb-2"   ,}, "🎁 开卡即送礼包" )
+        , _react2.default.createElement('div', { className: "flex justify-around text-center mb-2"   ,}
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold" ,}, "10"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "Spins"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold" ,}, "5"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "CCUSD"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold" ,}, "4"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "碎片"))
+        )
+        , _react2.default.createElement('p', { className: "text-slate-500 text-xs text-center mb-2"   ,}, "🎫×1 + 🏅×2 + ⭐×1 (NFT球星卡碎片)"     )
+        , _react2.default.createElement('button', { onClick: ()=>setCardModal(true), className: "w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold text-sm"        ,}, "立即开卡 →" )
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "💳 CC Card 权益对比"   )
+        , _react2.default.createElement('div', { className: "grid grid-cols-3 gap-px text-xs"   ,}
+          , [['权益','普通用户','CC Card'],['冠军/阵营加成','标准','+25% 奖池'],['黄金/NFT优先权','无','优先+空投'],['每日抽奖','3次','10次'],['邀请返利','5%','15%']].map((row,i)=>(
+            _react2.default.createElement(_react2.default.Fragment, { key: i,}
+              , _react2.default.createElement('div', { className: `p-1.5 ${i===0?'text-slate-400':'text-slate-300'} ${i%2===0?'bg-slate-700/50':''}`,}, row[0])
+              , _react2.default.createElement('div', { className: `p-1.5 text-center ${i===0?'text-slate-400':'text-slate-400'} ${i%2===0?'bg-slate-700/50':''}`,}, row[1])
+              , _react2.default.createElement('div', { className: `p-1.5 text-center ${i===0?'text-amber-400 font-bold':'text-green-400'} ${i%2===0?'bg-slate-700/50':''}`,}, row[2])
+            )
+          ))
+        )
+      )
+      , _react2.default.createElement('div', { className: "w-full bg-slate-800 rounded-xl p-3 my-2"    ,}
+        , _react2.default.createElement('p', { className: "text-white text-sm font-semibold mb-2"   ,}, "👥 邀请记录" )
+        , _react2.default.createElement('div', { className: "flex justify-around text-center mb-3"   ,}
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-xl"  ,}, "12"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "已邀请"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-green-400 font-bold text-xl"  ,}, "3.60"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "CCUSD奖励"))
+          , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-purple-400 font-bold text-xl"  ,}, "24"), _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "抽奖次数"))
+        )
+        , _react2.default.createElement('button', { className: "w-full py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-bold"        ,}, "📤 邀请好友" )
+      )
+    )
+  );
+
+  const buyInfo=getBuyInfo();
+
+  return (
+    _react2.default.createElement('div', { className: "min-h-screen bg-black flex justify-center"   ,}
+      , _react2.default.createElement('div', { className: "w-full max-w-sm relative"  , style: {background:'#0f172a',minHeight:'100vh'},}
+        , _react2.default.createElement('div', { className: "overflow-y-auto", style: {height:'calc(100vh - 56px)'},}
+          , tab==='home' && renderHome()
+          , tab==='rewards' && renderRewards()
+          , tab==='predict' && renderPredict()
+          , tab==='profile' && renderProfile()
+        )
+        , _react2.default.createElement('div', { className: "absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around py-2 z-30"          ,}
+          , tabs_nav.map(t=>(
+            _react2.default.createElement('button', { key: t.id, onClick: ()=>setTab(t.id), className: "flex flex-col items-center gap-0.5"   ,}
+              , _react2.default.createElement(t.Icon, { size: 18, className: tab===t.id?'text-amber-400':'text-slate-500',})
+              , _react2.default.createElement('span', { className: `text-xs ${tab===t.id?'text-amber-400 font-bold':'text-slate-500'}`,}, t.label)
+            )
+          ))
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , modal && modal.type==='miss' && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-center justify-center bg-black/70"      , onClick: ()=>setModal(null),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {scale:0.5}, animate: {scale:1}, exit: {scale:0.5}, className: "bg-slate-800 rounded-2xl p-6 mx-6 w-72 text-center border border-slate-600 relative"        , onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('button', { onClick: ()=>setModal(null), className: "absolute top-3 right-3 text-slate-400"   ,}, _react2.default.createElement(_lucidereact.X, { size: 16,}))
+                , _react2.default.createElement('p', { className: "text-5xl mb-2" ,}, "💫")
+                , _react2.default.createElement('p', { className: "text-white font-bold text-lg mb-1"   ,}, "再接再厉")
+                , _react2.default.createElement('p', { className: "text-slate-300 text-sm mb-4"  ,}, encourageMsg)
+                , _react2.default.createElement('button', { onClick: ()=>setModal(null), className: "w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm mb-3"         ,}, spins>0?'再来一次！':'获取更多次数')
+                , _react2.default.createElement('div', { className: "bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 flex items-start gap-2.5"       ,}
+                  , _react2.default.createElement(_lucidereact.Share2, { size: 18, className: "text-blue-400 mt-0.5 flex-shrink-0"  ,})
+                  , _react2.default.createElement('div', { className: "text-left flex-1" ,}
+                    , _react2.default.createElement('p', { className: "text-blue-400 text-xs font-bold mb-0.5"   ,}, "邀请好友一起玩")
+                    , _react2.default.createElement('p', { className: "text-slate-400 text-xs" ,}, "每成功邀请 1 位好友 +2 次抽奖"    )
+                  )
+                  , _react2.default.createElement('button', { className: "px-2.5 py-1 bg-blue-500 text-white text-xs font-bold rounded-full flex-shrink-0"       ,}, "去分享")
+                )
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , modal && modal.type!=='miss' && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-center justify-center bg-black/70"      , onClick: ()=>setModal(null),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {scale:0.5}, animate: {scale:1}, exit: {scale:0.5}, className: "bg-slate-800 rounded-2xl p-6 mx-6 w-64 text-center border-2 relative"       , style: {borderColor:modal.color}, onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('button', { onClick: ()=>setModal(null), className: "absolute top-3 right-3 text-slate-400"   ,}, _react2.default.createElement(_lucidereact.X, { size: 16,}))
+                , _react2.default.createElement('p', { className: "text-5xl mb-2" ,}, modal.icon)
+                , _react2.default.createElement('p', { className: "text-white font-bold text-lg mb-1"   ,}, "🎉 恭喜获得" )
+                , _react2.default.createElement('p', { className: "font-bold text-lg mb-1"  , style: {color:modal.color},}, modal.fullName||modal.name)
+                , modal.detail && _react2.default.createElement('p', { className: "text-slate-400 text-xs mb-1"  ,}, modal.detail)
+                , _react2.default.createElement('p', { className: "text-slate-400 text-xs mb-4"  ,}, "已存入奖励账户")
+                , _react2.default.createElement('button', { onClick: ()=>setModal(null), className: "w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm mb-2"         ,}, "继续抽奖")
+                , _react2.default.createElement('button', { onClick: ()=>{setModal(null);setTab('rewards');}, className: "text-amber-400 text-xs underline"  ,}, "查看我的奖励 >" )
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , cardModal && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-center justify-center bg-black/70"      , onClick: ()=>setCardModal(false),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {scale:0.8,opacity:0}, animate: {scale:1,opacity:1}, exit: {scale:0.8,opacity:0}, className: "bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 mx-4 w-72 border border-amber-500/40 relative"         , onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('button', { onClick: ()=>setCardModal(false), className: "absolute top-3 right-3 text-slate-400"   ,}, _react2.default.createElement(_lucidereact.X, { size: 16,}))
+                , _react2.default.createElement('div', { className: "flex items-center gap-2 mb-4"   ,}
+                  , _react2.default.createElement('span', { className: "text-2xl",}, "💳")
+                  , _react2.default.createElement('div', null, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-base"  ,}, "CC Card 开卡礼包"  ), _react2.default.createElement('p', { className: "text-amber-200/60 text-xs" ,}, "开卡即送，立即到账"))
+                )
+                , _react2.default.createElement('div', { className: "grid grid-cols-2 gap-2 mb-3"   ,}
+                  , _react2.default.createElement('div', { className: "bg-black/30 rounded-xl p-3 text-center border border-amber-500/10"     ,}, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-2xl"  ,}, "10"), _react2.default.createElement('p', { className: "text-amber-200/60 text-xs" ,}, "Spins 次数" ))
+                  , _react2.default.createElement('div', { className: "bg-black/30 rounded-xl p-3 text-center border border-amber-500/10"     ,}, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-2xl"  ,}, "5"), _react2.default.createElement('p', { className: "text-amber-200/60 text-xs" ,}, "CCUSD"))
+                )
+                , _react2.default.createElement('div', { className: "bg-black/30 rounded-xl p-3 mb-4 border border-amber-500/10"     ,}
+                  , _react2.default.createElement('p', { className: "text-amber-200/60 text-xs text-center mb-2"   ,}, "碎片奖励 ×4" )
+                  , _react2.default.createElement('div', { className: "flex justify-center gap-5 text-sm"   ,}
+                    , _react2.default.createElement('div', { className: "text-center",}, _react2.default.createElement('span', { className: "text-lg block" ,}, "🎟️"), _react2.default.createElement('span', { className: "text-slate-300 text-xs" ,}, "×1"))
+                    , _react2.default.createElement('div', { className: "text-center",}, _react2.default.createElement('span', { className: "text-lg block" ,}, "🏅"), _react2.default.createElement('span', { className: "text-slate-300 text-xs" ,}, "×2"))
+                    , _react2.default.createElement('div', { className: "text-center",}, _react2.default.createElement('span', { className: "text-lg block" ,}, "⭐"), _react2.default.createElement('span', { className: "text-slate-300 text-xs" ,}, "×1"))
+                  )
+                  , _react2.default.createElement('p', { className: "text-slate-500 text-xs text-center mt-1.5"   ,}, "门票碎片×1 + 金条碎片×2 + NFT球星卡碎片×1"    )
+                )
+                , _react2.default.createElement('div', { className: "bg-green-500/10 border border-green-500/20 rounded-lg p-2 mb-3"     ,}, _react2.default.createElement('p', { className: "text-green-400 text-xs text-center"  ,}, "✅ 开卡后即享 0 手续费提现 · CCUSD ≈ USDC 1:1"        ))
+                , _react2.default.createElement('button', { className: "w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold text-sm"        ,}, "立即开卡，领取礼包 →" )
+                , _react2.default.createElement('p', { className: "text-slate-500 text-xs text-center mt-2"   ,}, "需完成身份认证 · 约 2 分钟"    )
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , buyModal && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-center justify-center bg-black/70"      , onClick: ()=>setBuyModal(false),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {scale:0.8,opacity:0}, animate: {scale:1,opacity:1}, exit: {scale:0.8,opacity:0}, className: "bg-slate-800 rounded-2xl p-5 mx-4 w-72 border border-slate-700 relative"       , onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('button', { onClick: ()=>setBuyModal(false), className: "absolute top-3 right-3 text-slate-400"   ,}, _react2.default.createElement(_lucidereact.X, { size: 16,}))
+                , _react2.default.createElement('div', { className: "flex items-center gap-2 mb-1"   ,}, _react2.default.createElement(_lucidereact.ShoppingCart, { size: 18, className: "text-amber-400",}), _react2.default.createElement('p', { className: "text-white font-bold text-base"  ,}, "购买抽奖次数"))
+                , _react2.default.createElement('p', { className: "text-slate-400 text-xs mb-3"  ,}, "使用 CC Wallet 余额支付 · CCUSD ≈ USDC 1:1"        )
+                , _react2.default.createElement('div', { className: "space-y-2 mb-3" ,}
+                  , PACKAGES.map((pkg,i)=>(
+                    _react2.default.createElement('div', { key: i, onClick: ()=>setSelectedPkg(i), className: `p-3 rounded-xl border cursor-pointer transition-all ${selectedPkg===i?'border-amber-400 bg-amber-500/10':'border-slate-600 bg-slate-700/50'}`,}
+                      , _react2.default.createElement('div', { className: "flex justify-between items-center"  ,}
+                        , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+                          , _react2.default.createElement('div', { className: `w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPkg===i?'border-amber-400':'border-slate-500'}`,}, selectedPkg===i&&_react2.default.createElement('div', { className: "w-2.5 h-2.5 rounded-full bg-amber-400"   ,}))
+                          , _react2.default.createElement('span', { className: "text-white text-sm font-bold"  ,}, pkg.qty, " 次" )
+                          , _react2.default.createElement('span', { className: "text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full font-bold"      ,}, "省", pkg.discount, "%")
+                        )
+                        , _react2.default.createElement('div', { className: "text-right",}, _react2.default.createElement('p', { className: "text-amber-400 font-bold text-sm"  ,}, pkg.price, " CCUSD" ), _react2.default.createElement('p', { className: "text-slate-500 text-xs" ,}, pkg.perSpin, " / 次"  ))
+                      )
+                    )
+                  ))
+                  , _react2.default.createElement('div', { onClick: ()=>setSelectedPkg('custom'), className: `p-3 rounded-xl border cursor-pointer transition-all ${selectedPkg==='custom'?'border-amber-400 bg-amber-500/10':'border-slate-600 bg-slate-700/50'}`,}
+                    , _react2.default.createElement('div', { className: "flex justify-between items-center"  ,}
+                      , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+                        , _react2.default.createElement('div', { className: `w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPkg==='custom'?'border-amber-400':'border-slate-500'}`,}, selectedPkg==='custom'&&_react2.default.createElement('div', { className: "w-2.5 h-2.5 rounded-full bg-amber-400"   ,}))
+                        , _react2.default.createElement('span', { className: "text-white text-sm font-bold"  ,}, "自定义")
+                        , _react2.default.createElement('span', { className: "text-slate-500 text-xs" ,}, "（最少 5 次）"  )
+                      )
+                      , _react2.default.createElement('span', { className: "text-slate-500 text-xs" ,}, "0.67 / 次"  )
+                    )
+                    , selectedPkg==='custom' && (
+                      _react2.default.createElement('div', { className: "mt-2.5 flex items-center gap-2 pl-7"    ,}
+                        , _react2.default.createElement('input', { type: "number", min: 5, value: customQty, onChange: e=>{const v=parseInt(e.target.value);setCustomQty(isNaN(v)?5:Math.max(5,v));}, className: "w-20 bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-white text-sm text-center outline-none focus:border-amber-400"           ,})
+                        , _react2.default.createElement('span', { className: "text-slate-400 text-xs" ,}, "次 =" )
+                        , _react2.default.createElement('span', { className: "text-amber-400 text-sm font-bold"  ,}, (customQty*0.67).toFixed(2), " CCUSD" )
+                      )
+                    )
+                  )
+                )
+                , _react2.default.createElement('div', { className: "flex justify-between text-xs text-slate-400 mb-2.5 px-1"     ,}, _react2.default.createElement('span', null, "CC Wallet 余额"  ), _react2.default.createElement('span', { className: "text-amber-400 font-bold" ,}, balance.toFixed(2), " CCUSD" ))
+                , buyInfo.cost>balance&&_react2.default.createElement('div', { className: "bg-red-500/10 border border-red-500/20 rounded-lg p-2 mb-2.5"     ,}, _react2.default.createElement('p', { className: "text-red-400 text-xs text-center"  ,}, "余额不足，请先充值或完成任务获取 CCUSD" ))
+                , _react2.default.createElement('button', { onClick: handleBuySpins, disabled: buyInfo.cost>balance||buyInfo.qty===0, className: `w-full py-2.5 rounded-xl font-bold text-sm ${buyInfo.cost<=balance&&buyInfo.qty>0?'bg-gradient-to-r from-amber-500 to-amber-600 text-white':'bg-slate-700 text-slate-500 cursor-not-allowed'}`,}, "确认购买 " , buyInfo.qty, " 次 · "   , buyInfo.cost, " CCUSD" )
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , wdModal && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-center justify-center bg-black/70"      , onClick: ()=>setWdModal(false),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {y:50,opacity:0}, animate: {y:0,opacity:1}, exit: {y:50,opacity:0}, className: "bg-slate-800 rounded-2xl p-5 mx-6 w-64 border border-slate-700"      , onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('p', { className: "text-white font-bold text-center mb-3"   ,}, "💳 提现校验" )
+                , [{n:'绑定 Wallet',d:false},{n:'CC Card 开卡（含身份认证）',d:false}].map((s,i)=>(
+                  _react2.default.createElement('div', { key: i, className: "flex items-center gap-2 p-2 rounded-lg mb-2 bg-red-500/10 border border-red-500/30"        ,}
+                    , _react2.default.createElement(_lucidereact.X, { size: 14, className: "text-red-400",})
+                    , _react2.default.createElement('span', { className: "text-sm flex-1 text-red-400"  ,}, s.n)
+                    , _react2.default.createElement('button', { onClick: ()=>{if(i===1){setWdModal(false);setCardModal(true);}}, className: "text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full"     ,}, "去完成")
+                  )
+                ))
+                , _react2.default.createElement('p', { className: "text-amber-400 text-xs text-center mt-2 mb-3"    ,}, "💳 完成开卡即可 0 手续费提现 · CCUSD ≈ USDC 1:1"        )
+                , _react2.default.createElement('button', { onClick: ()=>setWdModal(false), className: "w-full py-2 rounded-lg bg-slate-700 text-slate-300 text-sm"     ,}, "关闭")
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , betModal && selMatch && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0}, animate: {opacity:1}, exit: {opacity:0}, className: "absolute inset-0 z-50 flex items-end bg-black/70"     , onClick: ()=>setBetModal(false),}
+              , _react2.default.createElement(_framermotion.motion.div, { initial: {y:300}, animate: {y:0}, exit: {y:300}, className: "w-full bg-slate-800 rounded-t-2xl p-4 border-t border-slate-700"     , onClick: e=>e.stopPropagation(),}
+                , _react2.default.createElement('div', { className: "w-10 h-1 bg-slate-600 rounded mx-auto mb-3"     ,})
+                , _react2.default.createElement('p', { className: "text-white font-bold text-center mb-3"   ,}, "⚽ 参与竞猜" )
+                , _react2.default.createElement('div', { className: "flex items-center justify-between mb-4 px-4"    ,}
+                  , _react2.default.createElement('div', { className: "text-center",}, _react2.default.createElement('span', { className: "text-2xl block mb-0.5"  ,}, TEAMS[selMatch.home].flag), _react2.default.createElement('span', { className: "text-white text-xs font-bold"  ,}, TEAMS[selMatch.home].name))
+                  , _react2.default.createElement('span', { className: "text-slate-500 font-bold" ,}, "VS")
+                  , _react2.default.createElement('div', { className: "text-center",}, _react2.default.createElement('span', { className: "text-2xl block mb-0.5"  ,}, TEAMS[selMatch.away].flag), _react2.default.createElement('span', { className: "text-white text-xs font-bold"  ,}, TEAMS[selMatch.away].name))
+                )
+                , _react2.default.createElement('div', { className: "flex gap-2 mb-3"  ,}
+                  , [{k:'home',l:`${TEAMS[selMatch.home].name}胜`},{k:'draw',l:'平局'},{k:'away',l:`${TEAMS[selMatch.away].name}胜`}].map(o=>(
+                    _react2.default.createElement('button', { key: o.k, onClick: ()=>setBetChoice(o.k), className: `flex-1 py-2.5 rounded-xl text-xs font-bold border transition-all ${betChoice===o.k?'bg-amber-500 border-amber-400 text-white':'bg-slate-700 border-slate-600 text-slate-300'}`,}, o.l)
+                  ))
+                )
+                , _react2.default.createElement('p', { className: "text-slate-400 text-xs mb-1.5"  ,}, "投入金额 (CCUSD ≈ USDC 1:1)"    )
+                , _react2.default.createElement('div', { className: "flex gap-2 mb-3"  ,}
+                  , [1,3,5,10,20].map(a=>(
+                    _react2.default.createElement('button', { key: a, onClick: ()=>setBetAmt(a), className: `flex-1 py-1.5 rounded-lg text-xs font-bold ${betAmt===a?'bg-green-500 text-white':'bg-slate-700 text-slate-300'}`,}, a)
+                  ))
+                )
+                , _react2.default.createElement('div', { className: "flex justify-between text-xs text-slate-400 mb-3"    ,}, _react2.default.createElement('span', null, "奖池: " , selMatch.pool.toLocaleString(), " CCUSD" ), _react2.default.createElement('span', null, "余额: " , balance.toFixed(2)))
+                , _react2.default.createElement('button', { onClick: placeBet, disabled: !betChoice||betAmt>balance, className: `w-full py-2.5 rounded-xl font-bold text-sm ${betChoice&&betAmt<=balance?'bg-gradient-to-r from-amber-500 to-amber-600 text-white':'bg-slate-700 text-slate-500'}`,}, "确认投注 " , betAmt, " CCUSD" )
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , toast && (
+            _react2.default.createElement(_framermotion.motion.div, { initial: {opacity:0,y:-30}, animate: {opacity:1,y:0}, exit: {opacity:0,y:-30}, className: "absolute top-4 left-4 right-4 z-50 bg-green-500 rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-xl"            ,}
+              , _react2.default.createElement(_lucidereact.Check, { size: 16, className: "text-white",})
+              , _react2.default.createElement('div', null
+                , _react2.default.createElement('p', { className: "text-white font-bold text-sm"  ,}, toast.msg)
+                , toast.type==='bet'&&_react2.default.createElement('p', { className: "text-green-100 text-xs" ,}, "中奖30分钟内自动到账 🍀" )
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+} exports.default = CodeCoinApp;
+</script></head>
+  <body>
+  
+
+<div id="preview-app"></div></body></html>
